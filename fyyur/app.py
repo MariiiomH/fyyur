@@ -15,13 +15,6 @@ from flask_wtf import Form
 from forms import *
 
 
-
-
-#import os
-#import sys
-#from flask import jsonify
-
-
 #----------------------------------------------------------------------------#
 # App Config.
 #----------------------------------------------------------------------------#
@@ -31,11 +24,10 @@ app = Flask(__name__)
 moment = Moment(app)
 app.config.from_object('config')
 db = SQLAlchemy(app)
-#db.init_app(app)
+
 migrate = Migrate(app, db)
 
-# TODO: connect to a local postgresql database
-
+# connect to a local postgresql database
 SQLALCHEMY_DATABASE_URI = 'postgres://postgres:password@localhost:5432/fyyur'
 
 #----------------------------------------------------------------------------#
@@ -457,25 +449,6 @@ def shows():
     return render_template('pages/shows.html', shows=data)
 
 
-@app.route('/shows/create')
-def create_shows():
-  # renders form. do not touch.
-  form = ShowForm()
-  return render_template('forms/new_show.html', form=form)
-
-@app.route('/shows/create', methods=['POST'])
-def create_show_submission():
-  # called to create new shows in the db, upon submitting new show listing form
-  # TODO: insert form data as a new Show record in the db, instead
-
-  # on successful db insert, flash success
-  flash('Show was successfully listed!')
-  # TODO: on unsuccessful db insert, flash an error instead.
-  # e.g., flash('An error occurred. Show could not be listed.')
-  # see: http://flask.pocoo.org/docs/1.0/patterns/flashing/
-  return render_template('pages/home.html')
-
-
 @app.route('/shows/create', methods=['POST'])
 def create_show_submission():
     error = False
@@ -527,18 +500,7 @@ if not app.debug:
 if __name__ == '__main__':
     app.run()
 
-# Or specify port manually:
-'''
-if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
-'''
 
-"""
-if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 8080))
-    app.run(host='0.0.0.0', port=port, debug=True)
-"""
 
 
 
